@@ -1,0 +1,24 @@
+<!-- comments/templates/comments/add_comment.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Comment</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'comments/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Add a New Comment</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ comment_form.as_p }}
+            <button type="submit">Submit Comment</button>
+        </form>
+        <a href="{% url 'comment_list' %}">Back to Comments List</a>
+    </div>
+</body>
+</html>

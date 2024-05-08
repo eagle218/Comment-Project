@@ -1,0 +1,18 @@
+<!-- comments/templates/comments/reply_list.html -->
+
+<ul class="reply-list">
+    {% for reply in replies %}
+        <li class="comment">
+           
+            <div class="comment-content">
+                <div class="comment-header">
+                    <strong>{{ reply.user.username }}</strong>
+                    <span class="comment-timestamp">{{ reply.created_at|date:"Y-m-d H:i" }}</span>
+                    <a href="{% url 'add_comment' %}?parent={{ reply.id }}" class="reply-link">Reply</a>
+                </div>
+                <p>{{ reply.text }}</p>
+                {% include 'comments/reply_list.html' with replies=reply.replies.all %}
+            </div>
+        </li>
+    {% endfor %}
+</ul>

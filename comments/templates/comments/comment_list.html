@@ -1,0 +1,40 @@
+<!-- comments/templates/comments/comment_list.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'comments/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Comments</h2>
+        <ul class="comments-list">
+            {% for comment in page_obj %}
+                <li class="comment">
+                    
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <strong>{{ comment.user.username }}</strong>
+                            <span class="comment-timestamp">{{ comment.created_at|date:"Y-m-d H:i" }}</span>
+                            <a href="{% url 'add_comment' %}?parent={{ comment.id }}" class="reply-link">Reply</a>
+                        </div>
+                        <p>{{ comment.text }}</p>
+                        {% include 'comments/reply_list.html' with replies=comment.replies.all %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+        <a href="{% url 'add_comment' %}">Add a New Comment</a>
+    </div>
+</body>
+</html>
